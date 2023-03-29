@@ -1,0 +1,29 @@
+service: gateway
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - 'dynamodb:*'
+          Resource: '*'
+
+functions:
+  function1:
+    handler: index.handler
+    events:
+      - http:
+          path: /gifphy
+          method: post
+          cors: true
+  function2:
+    handler: index.send
+    events:
+      - http: 
+          path: /gifphy
+          method: get
+          cors: true
